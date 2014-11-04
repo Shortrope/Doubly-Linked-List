@@ -44,25 +44,47 @@ public class DblLListTest {
     }
 
     @Test
-    public void testAdd_to_non_empty_list() {
+    public void testAdd_and_testAddFirst_to_non_empty_list() {
         assertEquals("1st", sList.getFirst());
         sList.add("New 1st");
         assertEquals("New 1st", sList.getFirst());
         assertEquals("2nd", sList.get(2));
+
+        assertEquals((Integer)1, iList.getFirst());
+        iList.addFirst(11);
+        assertEquals((Integer)11, iList.getFirst());
+        assertEquals((Integer)2, iList.get(2));
     }
     @Test
-    public void testAdd_to_empty_list() {
+    public void testAdd_and_testAddFirst_to_empty_list() {
         sList.clear();
         assertNull(sList.getFirst());
         sList.add("New 1st");
         assertEquals("New 1st", sList.getFirst());
-        assertEquals("1st", sList.get(1));
 
         iList.clear();
         assertNull(iList.getFirst());
-        iList.add(11);
+        iList.addFirst(11);
         assertEquals(11, (int)iList.getFirst());
-        assertEquals(1, (int)iList.get(1));
+    }
+    @Test
+    public void testAddLast_to_non_empty_list() {
+        assertEquals("5th", sList.getLast());
+        assertEquals(5, sList.size());
+        sList.addLast("6th");
+        assertEquals("6th", sList.getLast());
+        assertEquals("5th", sList.get(4));
+        assertEquals(6, sList.size());
+    }
+    @Test
+    public void testAddLast_to_empty_list() {
+        iList.clear();
+        assertNull(iList.getLast());
+        assertEquals(0, iList.size());
+        iList.addLast(101);
+        assertEquals((Integer)101, iList.getLast());
+        assertEquals((Integer)101, iList.getFirst());
+        assertEquals(1, iList.size());
     }
 
 

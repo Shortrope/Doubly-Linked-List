@@ -8,20 +8,35 @@ public class DblLList<T> {
 
     private class Node<T> {
         public T item;
-        public Node next;
-        public Node prev;
+        public Node<T> next;
+        public Node<T> prev;
     }
 
+    private boolean listIsEmpty() {
+        return (size == 0);
+    }
     private boolean indexIsValid(int index) {
-        return (index >= 0 && index < size);
+        if (size == 0) return false;
+        else return (index >= 0 && index < size);
     }
+    private Node<T> getLastNode() {
+        if (listIsEmpty()) {
+            return null;
+        } else {
+            Node<T> n = first;
+            while(n.next != null) {
+                n = n.next;
+            }
+            return n;
+        }
 
+    }
 
     /*--- API ---*/
     public int size() { return size; }
     public void clear() {
         if (first != null) {
-            Node n = null;
+            Node<T> n = null;
             while (first.next != null) {
                 n = first;
                 first = first.next;
@@ -40,10 +55,11 @@ public class DblLList<T> {
             first.item = item;
         }
         else {
-            Node n = first;
-            first.next = n;
-            n.prev = first;
+            Node<T> oldFirst = first;
+            first = new Node<T>();
             first.item = item;
+            first.next = oldFirst;
+            oldFirst.prev = first;
         }
         size++;
     }
@@ -51,22 +67,43 @@ public class DblLList<T> {
     public void addFirst(T item) {
         add(item);
     }
-    public void addLast(T item) {}
+    public void addLast(T item) {
+        Node<T> oldLast = getLastNode();
+        if (oldLast == null) {
+            first = new Node<T>();
+            first.item = item;
+        }
+        else {
+            Node<T> newLast = new Node<T>();
+            newLast.item = item;
+            newLast.prev = oldLast;
+            oldLast.next = newLast;
+        }
+        size++;
+    }
+
 
     public T get() {
-        return first.item;
+        if (size == 0) return null;
+        else return first.item;
     }
     public T get(int index) {
         if (!indexIsValid(index)) {
             return null;
         }
-        Node n = first;
+        Node<T> n = first;
+        for (int i = 0; i < index; i++) {
+            n = n.next;
+        }
+        return n.item;
     }
     public T getFirst() {
         return get();
     }
     public T getLast() {
-        return null;
+        Node<T> n = getLastNode();
+        if (n == null) return null;
+        else return n.item;
     }
 
     public void set(T item, int index) {}
