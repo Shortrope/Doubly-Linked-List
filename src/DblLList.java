@@ -16,7 +16,7 @@ public class DblLList<T> {
         return (size == 0);
     }
     private boolean indexIsValid(int index) {
-        if (size == 0) return false;
+        if (listIsEmpty()) return false;
         else return (index >= 0 && index < size);
     }
     private Node<T> getLastNode() {
@@ -84,7 +84,7 @@ public class DblLList<T> {
 
 
     public T get() {
-        if (size == 0) return null;
+        if (listIsEmpty()) return null;
         else return first.item;
     }
     public T get(int index) {
