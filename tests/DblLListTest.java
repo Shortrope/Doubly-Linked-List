@@ -86,8 +86,44 @@ public class DblLListTest {
         assertEquals((Integer)101, iList.getFirst());
         assertEquals(1, iList.size());
     }
+    @Test
+    public void testAdd_item_at_valid_index() {
+        assertEquals((Integer)3, iList.get(2));
+        assertEquals((Integer)4, iList.get(3));
+        assertEquals(5, iList.size());
+        iList.add(404, 3);
+        assertEquals((Integer)3, iList.get(2));
+        assertEquals((Integer)404, iList.get(3));
+        assertEquals((Integer)4, iList.get(4));
+        assertEquals(6, iList.size());
 
-
-
+    }
+    @Test
+    public void testAdd_item_at_invalid_index() {
+        assertEquals("5th", sList.get(4));
+        sList.add("New Item", -1);
+        assertEquals("5th", sList.get(4));
+        sList.add("New Item", 5);
+        assertEquals("5th", sList.get(4));
+    }
+    @Test
+    public void testSet_item_at_valid_index() {
+        assertEquals(5, iList.size());
+        assertEquals((Integer)2, iList.get(1));
+        iList.set(202, 1);
+        assertEquals((Integer)202, iList.get(1));
+        assertEquals(5, iList.size());
+    }
+    @Test
+    public void testSet_item_at_invalid_index() {
+        assertEquals(5, iList.size());
+        assertEquals((Integer)2, iList.get(1));
+        iList.set(202, -1);
+        assertEquals((Integer)2, iList.get(1));
+        assertEquals(5, iList.size());
+        iList.set(202, 5);
+        assertEquals((Integer)5, iList.getLast());
+        assertEquals(5, iList.size());
+    }
 
 }

@@ -63,7 +63,22 @@ public class DblLList<T> {
         }
         size++;
     }
-    public void add(T item, int index) {}
+    public void add(T item, int index) {
+        if (!indexIsValid(index)) return;
+        else {
+            Node<T> n = first;
+            for (int i = 0; i < index; i++) {
+                n = n.next;
+            }
+            Node<T> newItem = new Node<T>();
+            newItem.item = item;
+            newItem.prev = n.prev;
+            newItem.next = n;
+            newItem.prev.next = newItem;
+            n.prev = newItem;
+            size++;
+        }
+    }
     public void addFirst(T item) {
         add(item);
     }
@@ -101,12 +116,20 @@ public class DblLList<T> {
         return get();
     }
     public T getLast() {
-        Node<T> n = getLastNode();
-        if (n == null) return null;
-        else return n.item;
+        if (listIsEmpty()) return null;
+        else return getLastNode().item;
     }
 
-    public void set(T item, int index) {}
+    public void set(T item, int index) {
+        if (!indexIsValid(index)) return;
+        else {
+            Node<T> n = first;
+            for (int i = 0; i < index; i++) {
+                n = n.next;
+            }
+            n.item = item;
+        }
+    }
 
     public T remove() {
         return null;
@@ -120,7 +143,6 @@ public class DblLList<T> {
     public T removeLast() {
         return null;
     }
-
 
 
 }
