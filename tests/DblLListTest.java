@@ -125,5 +125,71 @@ public class DblLListTest {
         assertEquals((Integer)5, iList.getLast());
         assertEquals(5, iList.size());
     }
+    @Test
+    public void testRemove_from_non_empty_list() {
+        assertEquals(5, iList.size());
+        assertEquals((Integer)1, iList.remove());
+        assertEquals((Integer)2, iList.getFirst());
+        assertEquals(4, iList.size());
+    }
+    @Test
+    public void testRemove_from__empty_list() {
+        sList.clear();
+        assertEquals(0, sList.size());
+        assertNull(sList.remove());
+        assertEquals(0, sList.size());
+    }
+    @Test
+    public void testRemoveFirst_from_non_empty_list() {
+        assertEquals(5, sList.size());
+        assertEquals("1st", sList.removeFirst());
+        assertEquals("2nd", sList.getFirst());
+        assertEquals(4, sList.size());
 
+    }
+    @Test
+    public void testRemoveFirst_from__empty_list() {
+        iList.clear();
+        assertEquals(0, iList.size());
+        assertNull(iList.removeFirst());
+        assertEquals(0, iList.size());
+    }
+    @Test
+    public void testRemoveLast_from_non_empty_list() {
+        assertEquals(5, sList.size());
+        assertEquals("5th", sList.getLast());
+        assertEquals("5th", sList.removeLast());
+        assertEquals("4th", sList.getLast());
+        assertEquals(4, sList.size());
+    }
+    @Test
+    public void testRemoveLast_from_empty_list() {
+        sList.clear();
+        assertEquals(0, sList.size());
+        assertNull(sList.removeLast());
+        assertEquals(0, sList.size());
+    }
+    @Test
+    public void testRemove_index_from_non_empty_list() {
+        assertEquals(5, iList.size());
+        assertEquals((Integer)3, iList.remove(2));
+        assertEquals((Integer)4, iList.get(2));
+        assertEquals((Integer)2, iList.get(1));
+        assertEquals((Integer)5, iList.getLast());
+        assertEquals(4, iList.size());
+    }
+    @Test
+    public void testRemove_index_from_empty_list() {
+        sList.clear();
+        assertEquals(0, sList.size());
+        assertNull(sList.remove(0));
+        assertNull(sList.remove(3));
+    }
+    @Test
+    public void testRemove_with_invalid_index() {
+        assertEquals(5, sList.size());
+        assertNull(sList.remove(-1));
+        assertNull(sList.remove(5));
+        assertEquals(5, sList.size());
+    }
 }

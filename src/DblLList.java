@@ -132,16 +132,38 @@ public class DblLList<T> {
     }
 
     public T remove() {
-        return null;
+        if (listIsEmpty()) return null;
+        T item = first.item;
+        first = first.next;
+        first.prev = null;
+        size--;
+        return item;
     }
     public T remove(int index) {
-        return null;
+        if (!indexIsValid(index)) return null;
+        else {
+            Node<T> n = first;
+            for (int i = 0; i < index ; i++) {
+                n = n.next;
+            }
+            n.prev.next = n.next;
+            n.next.prev = n.prev;
+            n.prev = null;
+            n.next = null;
+            size--;
+            return n.item;
+        }
     }
     public T removeFirst() {
-        return null;
+        return remove();
     }
     public T removeLast() {
-        return null;
+        if (listIsEmpty()) return null;
+        Node<T> n = getLastNode();
+        n.prev.next = null;
+        n.prev = null;
+        size--;
+        return n.item;
     }
 
 
