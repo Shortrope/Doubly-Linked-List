@@ -31,10 +31,12 @@ public class DblLListTest {
         assertEquals(5, sList.size());
         sList.clear();
         assertEquals(0, sList.size());
+        assertNull(sList.get());
 
         assertEquals(5, iList.size());
         iList.clear();
         assertEquals(0, iList.size());
+        assertNull(iList.getFirst());
 
         // clear an empty sList
         sList.clear();
@@ -140,6 +142,14 @@ public class DblLListTest {
         assertEquals(0, sList.size());
     }
     @Test
+    public void testRemove_from_list_with_one_node() {
+        sList.clear();
+        sList.add("Only item");
+        assertEquals(1, sList.size());
+        assertEquals("Only item", sList.remove());
+        assertEquals(0, sList.size());
+    }
+    @Test
     public void testRemoveFirst_from_non_empty_list() {
         assertEquals(5, sList.size());
         assertEquals("1st", sList.removeFirst());
@@ -170,6 +180,15 @@ public class DblLListTest {
         assertEquals(0, sList.size());
     }
     @Test
+    public void testRemoveLast_from_list_with_only_one_node() {
+        sList.clear();
+        sList.add("I'm an orphan");
+        assertEquals(1, sList.size());
+        assertEquals("I'm an orphan", sList.removeLast());
+        assertEquals(0, sList.size());
+        assertNull(sList.getLast());
+    }
+    @Test
     public void testRemove_index_from_non_empty_list() {
         assertEquals(5, iList.size());
         assertEquals((Integer)3, iList.remove(2));
@@ -184,6 +203,15 @@ public class DblLListTest {
         assertEquals(0, sList.size());
         assertNull(sList.remove(0));
         assertNull(sList.remove(3));
+    }
+    @Test
+    public void testRemove_index_from_list_with_only_one_node() {
+        sList.clear();
+        sList.add("Only item");
+        assertEquals(1, sList.size());
+        assertEquals("Only item", sList.remove(0));
+        assertEquals(0, sList.size());
+        assertNull(sList.remove(0));
     }
     @Test
     public void testRemove_with_invalid_index() {

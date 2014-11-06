@@ -10,6 +10,13 @@ public class DblLList<T> {
         public T item;
         public Node<T> next;
         public Node<T> prev;
+
+        public Node() {}
+        public Node(Node<T> prev, T item, Node<T> next) {
+            this.prev = prev;
+            this.item = item;
+            this.next = next;
+        }
     }
 
     private boolean listIsEmpty() {
@@ -42,40 +49,35 @@ public class DblLList<T> {
                 first = first.next;
                 n.next = null;
                 n.prev = null;
+                n.item = null;
             }
             first.prev = null;
-            first = null;
+            first.item = null;
             size = 0;
         }
     }
 
     public void add(T item) {
-        if (first == null) {
-            first = new Node<T>();
-            first.item = item;
+        if (listIsEmpty()) {
+            first = new Node<T>(null, item, null);
         }
         else {
             Node<T> oldFirst = first;
-            first = new Node<T>();
-            first.item = item;
-            first.next = oldFirst;
-            oldFirst.prev = first;
+            Node<T> newFirst = new Node(null, item, oldFirst);
+            oldFirst.prev = newFirst;
+            first = newFirst;
         }
         size++;
     }
     public void add(T item, int index) {
-        if (!indexIsValid(index)) return;
-        else {
+        if (indexIsValid(index)){
             Node<T> n = first;
             for (int i = 0; i < index; i++) {
                 n = n.next;
             }
-            Node<T> newItem = new Node<T>();
-            newItem.item = item;
-            newItem.prev = n.prev;
-            newItem.next = n;
+            Node<T> newItem = new Node<T>(n.prev, item, n);
             newItem.prev.next = newItem;
-            n.prev = newItem;
+            newItem.next.prev = newItem;
             size++;
         }
     }
@@ -83,15 +85,12 @@ public class DblLList<T> {
         add(item);
     }
     public void addLast(T item) {
-        Node<T> oldLast = getLastNode();
-        if (oldLast == null) {
-            first = new Node<T>();
-            first.item = item;
+        if (listIsEmpty()) {
+            first = new Node<T>(null, item, null);
         }
         else {
-            Node<T> newLast = new Node<T>();
-            newLast.item = item;
-            newLast.prev = oldLast;
+            Node<T> oldLast = getLastNode();
+            Node<T> newLast = new Node<T>(oldLast, item, null);
             oldLast.next = newLast;
         }
         size++;
@@ -121,8 +120,7 @@ public class DblLList<T> {
     }
 
     public void set(T item, int index) {
-        if (!indexIsValid(index)) return;
-        else {
+        if (indexIsValid(index)) {
             Node<T> n = first;
             for (int i = 0; i < index; i++) {
                 n = n.next;
@@ -133,15 +131,18 @@ public class DblLList<T> {
 
     public T remove() {
         if (listIsEmpty()) return null;
-        T item = first.item;
-        first = first.next;
-        first.prev = null;
+        Node<T> oldFirst = first;
+        Node<T> newFirst = first.next;
+        if (newFirst != null) newFirst.prev = null;
+        oldFirst.next = null;
+        first = newFirst;
         size--;
-        return item;
+        return oldFirst.item;
     }
     public T remove(int index) {
-        if (!indexIsValid(index)) return null;
-        else {
+        if (indexIsValid(index)) {
+            if (index == 0) return removeFirst();
+            if (index == size - 1) return removeLast();
             Node<T> n = first;
             for (int i = 0; i < index ; i++) {
                 n = n.next;
@@ -153,6 +154,7 @@ public class DblLList<T> {
             size--;
             return n.item;
         }
+        else { return null; }
     }
     public T removeFirst() {
         return remove();
@@ -160,8 +162,10 @@ public class DblLList<T> {
     public T removeLast() {
         if (listIsEmpty()) return null;
         Node<T> n = getLastNode();
-        n.prev.next = null;
-        n.prev = null;
+        if(n.prev != null) {
+            n.prev.next = null;
+            n.prev = null;
+        }
         size--;
         return n.item;
     }
