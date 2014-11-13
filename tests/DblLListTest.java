@@ -46,24 +46,21 @@ public class DblLListTest {
     }
 
     @Test
-    public void testAdd_and_testAddFirst_to_non_empty_list() {
+    public void testAdd_to_non_empty_list() {
         assertEquals("1st", sList.getFirst());
         sList.add("New 1st");
         assertEquals("New 1st", sList.getFirst());
         assertEquals("2nd", sList.get(2));
-
-        assertEquals((Integer)1, iList.getFirst());
-        iList.addFirst(11);
-        assertEquals((Integer)11, iList.getFirst());
-        assertEquals((Integer)2, iList.get(2));
     }
     @Test
-    public void testAdd_and_testAddFirst_to_empty_list() {
+    public void testAdd_to_empty_list() {
         sList.clear();
         assertNull(sList.getFirst());
         sList.add("New 1st");
         assertEquals("New 1st", sList.getFirst());
-
+    }
+    @Test
+    public void testAddFirst() {
         iList.clear();
         assertNull(iList.getFirst());
         iList.addFirst(11);
@@ -107,6 +104,27 @@ public class DblLListTest {
         assertEquals("5th", sList.get(4));
         sList.add("New Item", 5);
         assertEquals("5th", sList.get(4));
+    }
+    @Test
+    public void testAdd_item_at_index_zero() {
+        assertEquals(5, sList.size());
+        assertEquals("1st", sList.get(0));
+        sList.add("New 1st", 0);
+        assertEquals("New 1st", sList.get(0));
+        assertEquals("1st", sList.get(1));
+        assertEquals("5th", sList.getLast());
+        assertEquals(6, sList.size());
+    }
+    @Test
+    public void testAdd_item_at_last_index() {
+        assertEquals(5, sList.size());
+        assertEquals("5th", sList.get(4));
+        sList.add("New Item", 4);
+        assertEquals("New Item", sList.get(4));
+        assertEquals("5th", sList.get(5));
+        assertEquals("5th", sList.getLast());
+        assertEquals(6, sList.size());
+
     }
     @Test
     public void testSet_item_at_valid_index() {

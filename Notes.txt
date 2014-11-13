@@ -1,0 +1,13 @@
+If index is invalid, what should happen?
+    All of the if's for !indexIsValid() do nothing
+    replace w/ indexIsValid() and w/out an else clause ... for now
+If the index >= size should the item be added to the end of the list?
+Should methods return 'null' or throw an exception?
+    see get(), removeFirst()...
+
+------------------------------------------------------
+Add field node<T> last
+Create private method getNode()
+
+Create tests that deal w/ 0 or 1 node and 'last' methods.
+
