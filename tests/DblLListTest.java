@@ -11,18 +11,18 @@ public class DblLListTest {
     @org.junit.Before
     public void setUp() throws Exception {
         sList = new DblLList<String>();
-        sList.add("5th");
-        sList.add("4th");
-        sList.add("3rd");
-        sList.add("2nd");
         sList.add("1st");
+        sList.add("2nd");
+        sList.add("3rd");
+        sList.add("4th");
+        sList.add("5th");
 
         iList = new DblLList<Integer>();
-        iList.add(5);
-        iList.add(4);
-        iList.add(3);
-        iList.add(2);
         iList.add(1);
+        iList.add(2);
+        iList.add(3);
+        iList.add(4);
+        iList.add(5);
     }
 
 
@@ -47,20 +47,27 @@ public class DblLListTest {
 
     @Test
     public void testAdd_to_non_empty_list() {
-        assertEquals("1st", sList.getFirst());
-        sList.add("New 1st");
-        assertEquals("New 1st", sList.getFirst());
-        assertEquals("2nd", sList.get(2));
+        assertEquals("5th", sList.getLast());
+        sList.add("New Last");
+        assertEquals("New Last", sList.getLast());
+        assertEquals("5th", sList.get(4));
     }
     @Test
     public void testAdd_to_empty_list() {
         sList.clear();
         assertNull(sList.getFirst());
-        sList.add("New 1st");
-        assertEquals("New 1st", sList.getFirst());
+        sList.add("New item");
+        assertEquals("New item", sList.getFirst());
+        assertEquals("New item", sList.getLast());
     }
     @Test
-    public void testAddFirst() {
+    public void testAddFirst_to_non_empty_list() {
+        sList.addFirst("New First");
+        assertEquals("New First", sList.getFirst());
+        assertEquals(6, sList.size());
+    }
+    @Test
+    public void testAddFirst_to_empty_list() {
         iList.clear();
         assertNull(iList.getFirst());
         iList.addFirst(11);
