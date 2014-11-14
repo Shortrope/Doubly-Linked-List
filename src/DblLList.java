@@ -72,17 +72,18 @@ public class DblLList<T> {
             last = first;
         }
         else {
-            Node<T> oldFirst = first;
-            Node<T> newFirst = new Node(null, item, oldFirst);
-            oldFirst.prev = newFirst;
-            first = newFirst;
+            Node<T> oldLast = last;
+            Node<T> newLast = new Node<T>(oldLast, item, null);
+            oldLast.next = newLast;
+            last = newLast;
+
         }
         size++;
     }
     public void add(T item, int index) {
         if (indexIsValid(index)){
             if (index == 0) {
-                add(item);
+                addFirst(item);
                 return;
             }
             Node<T> n = getNode(index);
@@ -93,21 +94,20 @@ public class DblLList<T> {
         }
     }
     public void addFirst(T item) {
-        add(item);
-    }
-    public void addLast(T item) {
         if (listIsEmpty()) {
             first = new Node<T>(null, item, null);
             last = first;
         }
         else {
-            Node<T> oldLast = last;
-            Node<T> newLast = new Node<T>(oldLast, item, null);
-            oldLast.next = newLast;
-            last = newLast;
-
+            Node<T> oldFirst = first;
+            Node<T> newFirst = new Node(null, item, oldFirst);
+            oldFirst.prev = newFirst;
+            first = newFirst;
         }
         size++;
+    }
+    public void addLast(T item) {
+        add(item);
     }
 
 
