@@ -1,3 +1,5 @@
+add(item, index)  reverse params
+
 If index is invalid, what should happen?
     All of the if's for !indexIsValid() do nothing
     replace w/ indexIsValid() and w/out an else clause ... for now

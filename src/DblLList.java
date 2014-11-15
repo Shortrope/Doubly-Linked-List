@@ -1,3 +1,6 @@
+import java.util.Collection;
+import java.util.Iterator;
+
 /**
  * Created by Mario on 11/2/2014.
  */
@@ -20,15 +23,23 @@ public class DblLList<T> {
         }
     }
 
+    public DblLList() {};
+
+    public DblLList(Collection<? extends T> c) {
+        this();
+        this.addAll(c);
+    }
+
     private boolean listIsEmpty() {
         return (size == 0);
     }
+
     private boolean indexIsValid(int index) {
         if (listIsEmpty()) return false;
         else return (index >= 0 && index < size);
     }
-    private Node<T> getLastNode() {
 
+    private Node<T> getLastNode() {
         if (listIsEmpty()) {
             return null;
         } else {
@@ -38,8 +49,8 @@ public class DblLList<T> {
             }
             return n;
         }
-
     }
+
     private Node<T> getNode(int index) {
         Node<T> n = first;
         for (int i = 0; i < index; i++) {
@@ -47,8 +58,11 @@ public class DblLList<T> {
         }
         return n;
     }
+
+
     /*--- API ---*/
     public int size() { return size; }
+
     public void clear() {
         if (first != null) {
             Node<T> n = null;
@@ -80,10 +94,17 @@ public class DblLList<T> {
         }
         size++;
     }
+
+    // Inserts an item at the index given but also allows adding an
+    // item to end of list by using an index of one greater than the
+    // highest index  ..size()
     public void add(T item, int index) {
-        if (indexIsValid(index)){
+        if (indexIsValid(index) || index == size()){
             if (index == 0) {
                 addFirst(item);
+                return;
+            } else if (index == size()){
+                addLast(item);
                 return;
             }
             Node<T> n = getNode(index);
@@ -93,6 +114,7 @@ public class DblLList<T> {
             size++;
         }
     }
+
     public void addFirst(T item) {
         if (listIsEmpty()) {
             first = new Node<T>(null, item, null);
@@ -106,24 +128,45 @@ public class DblLList<T> {
         }
         size++;
     }
+
     public void addLast(T item) {
         add(item);
     }
 
+    public void addAll(Collection<? extends T> c) {
+        Iterator iterator = c.iterator();
+        while(iterator.hasNext()) {
+            add((T) iterator.next());
+        }
+    }
+
+    public void addAll(int index, Collection<? extends T> c) {
+        if (indexIsValid(index) || (index == size())) {
+            int i = index;
+            Iterator iterator = c.iterator();
+            while(iterator.hasNext()) {
+                add((T) iterator.next(), i);
+                i++;
+            }
+        }
+    }
 
     public T get() {
         if (listIsEmpty()) return null;
         else return first.item;
     }
+
     public T get(int index) {
         if (!indexIsValid(index)) {
             return null;
         }
         return getNode(index).item;
     }
+
     public T getFirst() {
         return get();
     }
+
     public T getLast() {
         if (listIsEmpty()) return null;
         else return last.item;
@@ -149,6 +192,7 @@ public class DblLList<T> {
         size--;
         return oldFirst.item;
     }
+
     public T remove(int index) {
         if (indexIsValid(index)) {
             if (index == 0) return removeFirst();
@@ -163,9 +207,11 @@ public class DblLList<T> {
         }
         else { return null; }
     }
+
     public T removeFirst() {
         return remove();
     }
+
     public T removeLast() {
         if (listIsEmpty()) return null;
         Node<T> n = last;

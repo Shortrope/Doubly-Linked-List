@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -7,6 +9,10 @@ public class DblLListTest {
 
     private DblLList<String> sList;
     private DblLList<Integer> iList;
+
+    // These are Collections to use for addAll() testing
+    private ArrayList<String> sAList;
+    private ArrayList<Integer> iAList;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -23,6 +29,11 @@ public class DblLListTest {
         iList.add(3);
         iList.add(4);
         iList.add(5);
+
+        sAList = new ArrayList<String>();
+        sAList.add("ArrayList #1");
+        sAList.add("ArrayList #2");
+        sAList.add("ArrayList #3");
     }
 
 
@@ -52,6 +63,7 @@ public class DblLListTest {
         assertEquals("New Last", sList.getLast());
         assertEquals("5th", sList.get(4));
     }
+
     @Test
     public void testAdd_to_empty_list() {
         sList.clear();
@@ -60,12 +72,14 @@ public class DblLListTest {
         assertEquals("New item", sList.getFirst());
         assertEquals("New item", sList.getLast());
     }
+
     @Test
     public void testAddFirst_to_non_empty_list() {
         sList.addFirst("New First");
         assertEquals("New First", sList.getFirst());
         assertEquals(6, sList.size());
     }
+
     @Test
     public void testAddFirst_to_empty_list() {
         iList.clear();
@@ -73,6 +87,7 @@ public class DblLListTest {
         iList.addFirst(11);
         assertEquals(11, (int)iList.getFirst());
     }
+
     @Test
     public void testAddLast_to_non_empty_list() {
         assertEquals("5th", sList.getLast());
@@ -82,6 +97,7 @@ public class DblLListTest {
         assertEquals("5th", sList.get(4));
         assertEquals(6, sList.size());
     }
+
     @Test
     public void testAddLast_to_empty_list() {
         iList.clear();
@@ -92,6 +108,7 @@ public class DblLListTest {
         assertEquals((Integer)101, iList.getFirst());
         assertEquals(1, iList.size());
     }
+
     @Test
     public void testAdd_item_at_valid_index() {
         assertEquals((Integer)3, iList.get(2));
@@ -102,8 +119,8 @@ public class DblLListTest {
         assertEquals((Integer)404, iList.get(3));
         assertEquals((Integer)4, iList.get(4));
         assertEquals(6, iList.size());
-
     }
+
     @Test
     public void testAdd_item_at_invalid_index() {
         assertEquals("5th", sList.get(4));
@@ -112,6 +129,7 @@ public class DblLListTest {
         sList.add("New Item", 5);
         assertEquals("5th", sList.get(4));
     }
+
     @Test
     public void testAdd_item_at_index_zero() {
         assertEquals(5, sList.size());
@@ -122,6 +140,7 @@ public class DblLListTest {
         assertEquals("5th", sList.getLast());
         assertEquals(6, sList.size());
     }
+
     @Test
     public void testAdd_item_at_last_index() {
         assertEquals(5, sList.size());
@@ -131,8 +150,99 @@ public class DblLListTest {
         assertEquals("5th", sList.get(5));
         assertEquals("5th", sList.getLast());
         assertEquals(6, sList.size());
-
     }
+
+    @Test
+    public void testAdd_item_at_last_index_plus_1() {
+        // Allows an item to be added to end of the list using
+        // an index.
+        assertEquals(5, sList.size());
+        assertEquals("5th", sList.getLast());
+        sList.add("New Item", sList.size());
+        assertEquals("New Item", sList.getLast());
+        assertEquals("5th", sList.get(4));
+        assertEquals(6, sList.size());
+    }
+
+    @Test
+    public void testAddAll() {
+        //addAll() appends to end of list
+        assertEquals(5, sList.size());
+        assertEquals("5th", sList.getLast());
+        assertEquals("5th", sList.get(4));
+        sList.addAll(sAList);
+        assertEquals(8, sList.size());
+        assertEquals("ArrayList #3", sList.getLast());
+        assertEquals("5th", sList.get(4));
+    }
+
+    @Test
+    public void testAddAll_to_empty_list() {
+        sList.clear();
+        assertEquals(0, sList.size());
+        assertNull(sList.getFirst());
+        sList.addAll(sAList);
+        assertEquals("ArrayList #1", sList.getFirst());
+        assertEquals("ArrayList #3", sList.getLast());
+        assertEquals(3, sList.size());
+    }
+
+    @Test
+    public void testAddAll_at_valid_index() {
+        assertEquals(5, sList.size());
+        assertEquals("5th", sList.getLast());
+        assertEquals("3rd", sList.get(2));
+        // add to middle of list
+        sList.addAll(2, sAList);
+        assertEquals(8, sList.size());
+        assertEquals("5th", sList.getLast());
+        assertEquals("ArrayList #1", sList.get(2));
+        // add to end of list using the highest valid index + 1
+        // in other words, using size() as the index
+        System.out.println(sList.size());
+        sList.addAll(sList.size(), sAList);
+        assertEquals(11, sList.size());
+        assertEquals("5th", sList.get(7));
+        assertEquals("ArrayList #3", sList.getLast());
+    }
+
+    @Test
+    public void testAddAll_at_invalid_index() {
+        assertEquals(5, sList.size());
+        assertEquals("1st", sList.getFirst());
+        assertEquals("3rd", sList.get(2));
+        assertEquals("5th", sList.getLast());
+        sList.addAll(-1, sAList);
+        assertEquals(5, sList.size());
+        assertEquals("1st", sList.getFirst());
+        assertEquals("3rd", sList.get(2));
+        assertEquals("5th", sList.getLast());
+        sList.addAll(6, sAList);
+        assertEquals(5, sList.size());
+        assertEquals("1st", sList.getFirst());
+        assertEquals("3rd", sList.get(2));
+        assertEquals("5th", sList.getLast());
+    }
+
+    @Test
+    public void testAddAll_with_index_to_empty_list() {
+        sList.clear();
+        assertEquals(0, sList.size());
+        assertNull( sList.getFirst());
+        sList.addAll(0, sAList);
+        assertEquals(3, sList.size());
+        assertEquals("ArrayList #1", sList.getFirst());
+        assertEquals("ArrayList #3", sList.getLast());
+    }
+
+    @Test
+    public void testConstructor_passing_in_a_collection() {
+        DblLList<String> collectionList = new DblLList<String>(sAList);
+        assertEquals(3, collectionList.size());
+        assertEquals("ArrayList #1", collectionList.getFirst());
+        assertEquals("ArrayList #3", collectionList.getLast());
+    }
+
     @Test
     public void testSet_item_at_valid_index() {
         assertEquals(5, iList.size());
@@ -141,6 +251,7 @@ public class DblLListTest {
         assertEquals((Integer)202, iList.get(1));
         assertEquals(5, iList.size());
     }
+
     @Test
     public void testSet_item_at_invalid_index() {
         assertEquals(5, iList.size());
@@ -152,6 +263,7 @@ public class DblLListTest {
         assertEquals((Integer)5, iList.getLast());
         assertEquals(5, iList.size());
     }
+
     @Test
     public void testRemove_from_non_empty_list() {
         assertEquals(5, iList.size());
@@ -159,6 +271,7 @@ public class DblLListTest {
         assertEquals((Integer)2, iList.getFirst());
         assertEquals(4, iList.size());
     }
+
     @Test
     public void testRemove_from__empty_list() {
         sList.clear();
@@ -166,6 +279,7 @@ public class DblLListTest {
         assertNull(sList.remove());
         assertEquals(0, sList.size());
     }
+
     @Test
     public void testRemove_from_list_with_one_node() {
         sList.clear();
@@ -174,6 +288,7 @@ public class DblLListTest {
         assertEquals("Only item", sList.remove());
         assertEquals(0, sList.size());
     }
+
     @Test
     public void testRemoveFirst_from_non_empty_list() {
         assertEquals(5, sList.size());
@@ -182,6 +297,7 @@ public class DblLListTest {
         assertEquals(4, sList.size());
 
     }
+
     @Test
     public void testRemoveFirst_from__empty_list() {
         iList.clear();
@@ -189,6 +305,7 @@ public class DblLListTest {
         assertNull(iList.removeFirst());
         assertEquals(0, iList.size());
     }
+
     @Test
     public void testRemoveLast_from_non_empty_list() {
         assertEquals(5, sList.size());
@@ -197,6 +314,7 @@ public class DblLListTest {
         assertEquals("4th", sList.getLast());
         assertEquals(4, sList.size());
     }
+
     @Test
     public void testRemoveLast_from_empty_list() {
         sList.clear();
@@ -204,6 +322,7 @@ public class DblLListTest {
         assertNull(sList.removeLast());
         assertEquals(0, sList.size());
     }
+
     @Test
     public void testRemoveLast_from_list_with_only_one_node() {
         sList.clear();
@@ -213,6 +332,7 @@ public class DblLListTest {
         assertEquals(0, sList.size());
         assertNull(sList.getLast());
     }
+
     @Test
     public void testRemove_index_from_non_empty_list() {
         assertEquals(5, iList.size());
@@ -222,6 +342,7 @@ public class DblLListTest {
         assertEquals((Integer)5, iList.getLast());
         assertEquals(4, iList.size());
     }
+
     @Test
     public void testRemove_index_from_empty_list() {
         sList.clear();
@@ -229,6 +350,7 @@ public class DblLListTest {
         assertNull(sList.remove(0));
         assertNull(sList.remove(3));
     }
+
     @Test
     public void testRemove_index_from_list_with_only_one_node() {
         sList.clear();
@@ -238,6 +360,7 @@ public class DblLListTest {
         assertEquals(0, sList.size());
         assertNull(sList.remove(0));
     }
+
     @Test
     public void testRemove_with_invalid_index() {
         assertEquals(5, sList.size());
