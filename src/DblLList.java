@@ -98,7 +98,7 @@ public class DblLList<T> {
     // Inserts an item at the index given but also allows adding an
     // item to end of list by using an index of one greater than the
     // highest index  ..size()
-    public void add(T item, int index) {
+    public void add(int index, T item) {
         if (indexIsValid(index) || index == size()){
             if (index == 0) {
                 addFirst(item);
@@ -145,7 +145,7 @@ public class DblLList<T> {
             int i = index;
             Iterator iterator = c.iterator();
             while(iterator.hasNext()) {
-                add((T) iterator.next(), i);
+                add(i, (T) iterator.next());
                 i++;
             }
         }
@@ -223,5 +223,9 @@ public class DblLList<T> {
         size--;
         return n.item;
     }
+
+/*    public DblLList<T> clone() {
+        Iterator iterator = this.
+    }*/
 
 }

@@ -2,8 +2,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class DblLListTest {
 
@@ -12,7 +11,6 @@ public class DblLListTest {
 
     // These are Collections to use for addAll() testing
     private ArrayList<String> sAList;
-    private ArrayList<Integer> iAList;
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -105,7 +103,7 @@ public class DblLListTest {
         assertEquals(0, iList.size());
         iList.addLast(101);
         assertEquals((Integer)101, iList.getLast());
-        assertEquals((Integer)101, iList.getFirst());
+        assertEquals((Integer) 101, iList.getFirst());
         assertEquals(1, iList.size());
     }
 
@@ -114,7 +112,7 @@ public class DblLListTest {
         assertEquals((Integer)3, iList.get(2));
         assertEquals((Integer)4, iList.get(3));
         assertEquals(5, iList.size());
-        iList.add(404, 3);
+        iList.add(3, 404);
         assertEquals((Integer)3, iList.get(2));
         assertEquals((Integer)404, iList.get(3));
         assertEquals((Integer)4, iList.get(4));
@@ -124,9 +122,9 @@ public class DblLListTest {
     @Test
     public void testAdd_item_at_invalid_index() {
         assertEquals("5th", sList.get(4));
-        sList.add("New Item", -1);
+        sList.add(-1, "New Item");
         assertEquals("5th", sList.get(4));
-        sList.add("New Item", 5);
+        sList.add(5, "New Item");
         assertEquals("5th", sList.get(4));
     }
 
@@ -134,7 +132,7 @@ public class DblLListTest {
     public void testAdd_item_at_index_zero() {
         assertEquals(5, sList.size());
         assertEquals("1st", sList.get(0));
-        sList.add("New 1st", 0);
+        sList.add(0, "New 1st");
         assertEquals("New 1st", sList.get(0));
         assertEquals("1st", sList.get(1));
         assertEquals("5th", sList.getLast());
@@ -145,7 +143,7 @@ public class DblLListTest {
     public void testAdd_item_at_last_index() {
         assertEquals(5, sList.size());
         assertEquals("5th", sList.get(4));
-        sList.add("New Item", 4);
+        sList.add(4, "New Item");
         assertEquals("New Item", sList.get(4));
         assertEquals("5th", sList.get(5));
         assertEquals("5th", sList.getLast());
@@ -158,7 +156,7 @@ public class DblLListTest {
         // an index.
         assertEquals(5, sList.size());
         assertEquals("5th", sList.getLast());
-        sList.add("New Item", sList.size());
+        sList.add(sList.size(), "New Item");
         assertEquals("New Item", sList.getLast());
         assertEquals("5th", sList.get(4));
         assertEquals(6, sList.size());
@@ -228,7 +226,7 @@ public class DblLListTest {
     public void testAddAll_with_index_to_empty_list() {
         sList.clear();
         assertEquals(0, sList.size());
-        assertNull( sList.getFirst());
+        assertNull(sList.getFirst());
         sList.addAll(0, sAList);
         assertEquals(3, sList.size());
         assertEquals("ArrayList #1", sList.getFirst());
@@ -268,7 +266,7 @@ public class DblLListTest {
     public void testRemove_from_non_empty_list() {
         assertEquals(5, iList.size());
         assertEquals((Integer)1, iList.remove());
-        assertEquals((Integer)2, iList.getFirst());
+        assertEquals((Integer) 2, iList.getFirst());
         assertEquals(4, iList.size());
     }
 
@@ -363,9 +361,21 @@ public class DblLListTest {
 
     @Test
     public void testRemove_with_invalid_index() {
+
         assertEquals(5, sList.size());
         assertNull(sList.remove(-1));
         assertNull(sList.remove(5));
         assertEquals(5, sList.size());
     }
+
+/*   @Test
+    public void testClone() {
+       DblLList<String> clonedList = sList.clone();
+       assertEquals(5, clonedList.size());
+       assertFalse(clonedList == sList);
+       assertTrue(clonedList.getFirst() == sList.getFirst());
+   }*/
+
+
+
 }
