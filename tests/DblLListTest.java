@@ -368,13 +368,13 @@ public class DblLListTest {
         assertEquals(5, sList.size());
     }
 
-/*   @Test
+   @Test
     public void testClone() {
-       DblLList<String> clonedList = sList.clone();
+       DblLList<String> clonedList = sList.clone(sList);
        assertEquals(5, clonedList.size());
        assertFalse(clonedList == sList);
        assertTrue(clonedList.getFirst() == sList.getFirst());
-   }*/
+   }
 
 
 

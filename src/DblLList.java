@@ -10,6 +10,7 @@ public class DblLList<T> {
     private Node<T> last;
     private int size;
 
+
     private class Node<T> {
         public T item;
         public Node<T> next;
@@ -61,6 +62,15 @@ public class DblLList<T> {
 
 
     /*--- API ---*/
+
+    public Node<T> getPrevious(Node<T> item) {
+        return item.prev;
+    }
+
+    public Node<T>  getNext(Node<T> item) {
+        return item.next;
+    }
+
     public int size() { return size; }
 
     public void clear() {
@@ -224,8 +234,15 @@ public class DblLList<T> {
         return n.item;
     }
 
-/*    public DblLList<T> clone() {
-        Iterator iterator = this.
-    }*/
+    public DblLList<T> clone(DblLList<T> other) {
+        if (other instanceof DblLList) {
+            DblLList<T> clonedList = new DblLList<T>();
+            for (int i = 0; i < other.size(); i++) {
+                clonedList.add(other.get(i));
+            }
+            return clonedList;
+        }
+        return null;
+    }
 
 }
